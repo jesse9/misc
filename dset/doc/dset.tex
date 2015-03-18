@@ -10,9 +10,9 @@
 \section{Introduction}
 $k=k_0k_1k_2...k_L,~~~~~~k_0=""$\\
 $K=\{\forall k\}$\\
-$K_0=\{k_0,\forall k\}=\{""\}$\\
-$K_1=\{k_1,\forall k\}$\\
-$K_2=\{k_2,\forall k\}$\\
+$K_0=\{k_0,\forall k=k_0k_1k_2...k_L\}=\{""\}$\\
+$K_1=\{k_1,\forall k=k_0k_1k_2...k_L\}$\\
+$K_2=\{k_2,\forall k=k_0k_1k_2...k_L\}$\\
 ...\\
 $K_L=\{k_L,\forall k\}$\\
 $|K|\le|K_0|\times|K_1|\times|K_2|\times ... \times|K_L|$\\
@@ -29,6 +29,9 @@ $G=Grouped$\\
 $U=Unordered/UnknownOrder$\\
 $\top=S>G>U=\bot$\\
 \\
-$\forall k, \forall 0\le i<L, \forall i<j\le L,A(k,i,j)\in \{S,G,U\}$
+$\forall k, \forall 0\le i<L, \forall i<j\le L,A(k,i,j)=A(p_i(k),j)\in \{S,G,U\}$\\
+$A(p_i(k),i+1)=The~order~for~the~occurrences~of~k_0k_1k_2...k_i,k_{i+1}^r, \forall r$\\
+$~~~~~~~~where~p_i(k)=k_0k_1k_2...k_i \wedge k_0k_1k_2...k_i,k_{i+1}^r\in P_{i+1}$\\
+$A(p_i(k),j)=min\{A(p,j), \forall p\in |P_{j-1}| \wedge p_i(p)=p_i(k)\}$\\
 
 \end{document}
