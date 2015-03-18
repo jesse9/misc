@@ -1,0 +1,34 @@
+\title{DSet}
+\author{Xing Zhou}
+\date{\today}
+
+\documentclass[12pt]{article}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+$k=k_0k_1k_2...k_L,~~~~~~k_0=""$\\
+$K=\{\forall k\}$\\
+$K_0=\{k_0,\forall k\}=\{""\}$\\
+$K_1=\{k_1,\forall k\}$\\
+$K_2=\{k_2,\forall k\}$\\
+...\\
+$K_L=\{k_L,\forall k\}$\\
+$|K|\le|K_0|\times|K_1|\times|K_2|\times ... \times|K_L|$\\
+\\
+$p_i(k)=Prefix(k,i)=k_0k_1k_2...k_i,~~~~~~~~~~0\le i\le L$\\
+$k^1=k_0k_1k_2...k_i,k_{i+1}^1,k_{i+2}^1,...,k_L^1$\\
+$k^2=k_0k_1k_2...k_i,k_{i+1}^2,k_{i+2}^2,...,k_L^2$\\
+$p_i(k^1)=p_i(k^2)=k_0k_1k_2...k_i$\\
+$P_i=\{p_i(k), \forall k\}$\\
+$|P_i|\le|K_0|\times|K_1|\times|K_2|\times ... \times|K_i|$\\
+\\
+$S=Sorted$\\
+$G=Grouped$\\
+$U=Unordered/UnknownOrder$\\
+$\top=S>G>U=\bot$\\
+\\
+$\forall k, \forall 0\le i<L, \forall i<j\le L,A(k,i,j)\in \{S,G,U\}$
+
+\end{document}
