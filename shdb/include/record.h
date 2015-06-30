@@ -8,43 +8,42 @@
 #ifndef INCLUDE_RECORD_H_
 #define INCLUDE_RECORD_H_
 
+#include <ostream>
+#include <string>
+
 namespace shdb {
 
-// Class T must have a static field size_in_bytes defined.
-template<class T>
-class VerifySize {
-public:
-	static bool DefinitionValid() {
-		return sizeof(T) == T::size_in_bytes;
-	}
+struct Date {
+	short int year = 0;
+	char month = 0;
+	char day = 0;
+
+	bool operator==(const Date &other) const;
+	bool operator!=(const Date &other) const;
+
+	// Returns true if parsing is successful.
+	static bool parse(const std::string &line, Date *date);
 };
 
-class Date : public VerifySize<Date> {
-public:
-	static constexpr unsigned size_in_bytes = 4;
+std::ostream &operator<<(std::ostream &os, const Date &date);
 
-	int year : 16;
-	int month : 8;
-	int day : 8;
-};
-
-class Price : public VerifySize<Price> {
-public:
-	static constexpr unsigned size_in_bytes = 4;
-
-	int price_times_10k;
-};
-
-class DayRecord : public VerifySize<DayRecord> {
-public:
-	static constexpr unsigned size_in_bytes = 32;
-
+struct DayRecord {
 	Date date;
-	Price open, close, adj_close, high, low;
-	long long volume;
+	double open_price = 0;
+	double high_price = 0;
+	double low_price = 0;
+	double close_price = 0;
+	long long int volume = 0;
+	double adj_close_price = 0;
+
+	bool operator==(const DayRecord &other) const;
+	bool operator!=(const DayRecord &other) const;
+
+	// Returns true if parsing is successful.
+	static bool parse(const std::string &line, DayRecord *record);
 };
 
-extern bool verify_all_definitions();
+std::ostream &operator<<(std::ostream &os, const DayRecord &record);
 
 }  // namespace shdb
 

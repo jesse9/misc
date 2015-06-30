@@ -1,10 +1,10 @@
 CXXFLAGS =	-O2 -g -Wall -fmessage-length=0 -std=c++11
 
-OBJS =		record.o csv2bin.o
+OBJS =		record.o mergecsv.o
 
 LIBS =
 
-TARGET =	csv2bin.exe
+TARGET =	mergecsv
 
 $(TARGET):	$(OBJS)
 	$(CXX) -o $(TARGET) $(OBJS) $(LIBS)
