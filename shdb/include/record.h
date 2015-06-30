@@ -20,6 +20,7 @@ struct Date {
 	char month = 0;
 	char day = 0;
 
+	bool operator<(const Date &other) const;
 	bool operator==(const Date &other) const;
 	bool operator!=(const Date &other) const;
 
