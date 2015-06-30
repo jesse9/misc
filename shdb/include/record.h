@@ -14,6 +14,8 @@
 namespace shdb {
 
 struct Date {
+	static constexpr int StringLength =10;
+
 	short int year = 0;
 	char month = 0;
 	char day = 0;
@@ -35,9 +37,6 @@ struct DayRecord {
 	double close_price = 0;
 	long long int volume = 0;
 	double adj_close_price = 0;
-
-	bool operator==(const DayRecord &other) const;
-	bool operator!=(const DayRecord &other) const;
 
 	// Returns true if parsing is successful.
 	static bool parse(const std::string &line, DayRecord *record);

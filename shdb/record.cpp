@@ -7,6 +7,7 @@
 
 #include "include/record.h"
 #include "include/common.h"
+#include <cstdlib>
 #include <iostream>
 #include <sstream>
 
@@ -23,11 +24,11 @@ bool Date::operator!=(const Date &other) const {
 }
 
 bool Date::parse(const std::string &line, Date *date) {
-	if (line.length() != 10 || line[4] != '-' || line[7] != '-') {
+	if (line.length() != StringLength || line[4] != '-' || line[7] != '-') {
 		LOG << "Invalid date format: " << line << endl;
 		return false;
 	}
-	for (int i = 0; i < 10; ++i) {
+	for (int i = 0; i < StringLength; ++i) {
 		if (line[i] != '-' && (line[i] > '9' || line[i] < '0')) {
 			LOG << "Invalid date format: " << line << endl;
 			return false;
@@ -53,32 +54,35 @@ std::ostream &operator<<(std::ostream &os, const Date &date) {
 	return os;
 }
 
-bool DayRecord::operator==(const DayRecord &other) const {
-	return date == other.date &&
-			open_price == other.open_price &&
-			high_price == other.high_price &&
-			low_price == other.low_price &&
-			close_price == other.close_price &&
-			volume == other.volume &&
-			adj_close_price == other.adj_close_price;
-}
-
-bool DayRecord::operator!=(const DayRecord &other) const {
-	return !(*this == other);
-}
-
 bool DayRecord::parse(const string &line, DayRecord *record) {
 	stringstream ss(line);
 	string column;
-	if (!getline(ss, column, ',')) {
-		LOG << "Invalid day record format: " << line << endl;
-		return false;
-	}
+
+#define GET_COLUMN	do { \
+	if (!getline(ss, column, ',')) { \
+		LOG << "Invalid day record format: " << line << endl; \
+		return false; \
+	} \
+} while(false)
+
+	GET_COLUMN;
 	if (!Date::parse(column, &record->date)) {
 		LOG << "Invalid day record format: " << line << endl;
 		return false;
 	}
-
+	GET_COLUMN;
+	record->open_price = atof(column.c_str());
+	GET_COLUMN;
+	record->high_price = atof(column.c_str());
+	GET_COLUMN;
+	record->low_price = atof(column.c_str());
+	GET_COLUMN;
+	record->close_price = atof(column.c_str());
+	GET_COLUMN;
+	stringstream llss(column);
+	llss >> record->volume;
+	GET_COLUMN;
+	record->adj_close_price = atof(column.c_str());
 	return true;
 }
 

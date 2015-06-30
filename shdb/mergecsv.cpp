@@ -33,6 +33,7 @@ int main(int argc, char *argv[]) {
 	for (bool csv1_end = false, csv2_end = false; !csv1_end || !csv2_end;) {
 		string line;
 		DayRecord record1, record2;
+		string record_wo_date1, record_wo_date2;
 		bool has_record1 = false, has_record2 = false;
 		if (!csv1_end) {
 			if (getline(csv1, line)) {
@@ -42,6 +43,7 @@ int main(int argc, char *argv[]) {
 							<< line_num1 << ": " << line << endl;
 				} else {
 					has_record1 = true;
+					record_wo_date1 = line.substr(Date::StringLength + 1);
 				}
 			} else {
 				csv1_end = true;
@@ -55,6 +57,7 @@ int main(int argc, char *argv[]) {
 							<< line_num2 << ": " << line << endl;
 				} else {
 					has_record2 = true;
+					record_wo_date2 = line.substr(Date::StringLength + 1);
 				}
 			} else {
 				csv2_end = true;
@@ -63,19 +66,20 @@ int main(int argc, char *argv[]) {
 
 		if (has_record1 && has_record2) {
 			if (record1.date == record2.date) {
-				if (record1 != record2) {
+				if (record_wo_date1 != record_wo_date2) {
 					LOG << "Conflict records: " << argv[1] << ":" << line_num1
-							<< ": " << record1 << " v.s. " << argv[2] << ":"
-							<< line_num2 << ": " << record1 << endl;
+							<< ": " << record1.date << "," << record_wo_date1
+							<< " v.s. " << argv[2] << ":" << line_num2 << ": "
+							<< record2.date << "," << record_wo_date2 << endl;
 					return -1;
 				} else {
-					cout << record1 << endl;
+					cout << record1.date << "," << record_wo_date1 << endl;
 				}
 			}
 		} else if (has_record1) {
-			cout << record1 << endl;
+			cout << record1.date << "," << record_wo_date1 << endl;
 		} else if (has_record2) {
-			cout << record2 << endl;
+			cout << record2.date << "," << record_wo_date2 << endl;
 		}
 	}
 
