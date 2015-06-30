@@ -23,10 +23,9 @@ int main(int argc, char *argv[]) {
 		string filename;
 		ifstream csv;
 		DayRecord record;
-
-		bool endOfFile() const {
-			return end;
-		}
+		string record_str_wo_date;
+		int line_num = 0;
+		bool end = false;
 
 		void next() {
 			while (!end) {
@@ -41,9 +40,6 @@ int main(int argc, char *argv[]) {
 		}
 
 	private:
-		bool end = false;
-		int line_num = 0;
-		string record_str_wo_date;
 
 		bool tryRead() {
 			if (end) {
@@ -78,21 +74,45 @@ int main(int argc, char *argv[]) {
 		return -1;
 	}
 
-	for (f1.next(), f2.next(); !f1.endOfFile() || !f2.endOfFile(); ) {
-		if (f1.endOfFile()) {
+	int num_f1 = 0, num_f2 = 0, num_overlap = 0, merge_total = 0;
+	for (f1.next(), f2.next(); !f1.end || !f2.end; ) {
+		if (f1.end) {
 			f2.print();
 			f2.next();
-		} else if (f2.endOfFile()) {
+			++num_f2;
+		} else if (f2.end) {
 			f1.print();
 			f1.next();
+			++num_f1;
 		} else if (f1.record.date < f2.record.date) {
 			f1.print();
 			f1.next();
-		} else {
+			++num_f1;
+		} else if (f2.record.date < f1.record.date) {
 			f2.print();
 			f2.next();
+			++num_f2;
+		} else {
+			if (f1.record_str_wo_date != f2.record_str_wo_date) {
+				LOG << "Conflict: " << f1.filename << ":" << f1.line_num << ": "
+						<< f1.record.date << "," << f1.record_str_wo_date
+						<< " v.s. " << f2.filename << ":" << f2.line_num << ": "
+						<< f2.record.date << "," << f2.record_str_wo_date
+						<< endl;
+				return -1;
+			}
+			f1.print();
+			f1.next();
+			f2.next();
+			++num_f1;
+			++num_f2;
+			++num_overlap;
 		}
+		++merge_total;
 	}
+	LOG << num_f1 << " from " << f1.filename << ", " << num_f2 << " from "
+			<< f2.filename << ", " << num_overlap << " overlap, total "
+			<< merge_total << " after merge." << endl;
 
 	return 0;
 }
