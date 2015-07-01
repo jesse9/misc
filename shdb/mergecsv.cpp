@@ -84,11 +84,11 @@ int main(int argc, char *argv[]) {
 			f1.print();
 			f1.next();
 			++num_f1;
-		} else if (f1.record.date < f2.record.date) {
+		} else if (f2.record.date < f1.record.date) {
 			f1.print();
 			f1.next();
 			++num_f1;
-		} else if (f2.record.date < f1.record.date) {
+		} else if (f1.record.date < f2.record.date) {
 			f2.print();
 			f2.next();
 			++num_f2;
