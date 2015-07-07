@@ -75,18 +75,18 @@ bool DayRecord::parse(const string &line, DayRecord *record) {
 		return false;
 	}
 	GET_COLUMN;
-	record->open_price = atof(column.c_str());
+	record->open_price_k = atof(column.c_str()) * 1000;
 	GET_COLUMN;
-	record->high_price = atof(column.c_str());
+	record->high_price_k = atof(column.c_str()) * 1000;
 	GET_COLUMN;
-	record->low_price = atof(column.c_str());
+	record->low_price_k = atof(column.c_str()) * 1000;
 	GET_COLUMN;
-	record->close_price = atof(column.c_str());
+	record->close_price_k = atof(column.c_str()) * 1000;
 	GET_COLUMN;
 	stringstream llss(column);
 	llss >> record->volume;
 	GET_COLUMN;
-	record->adj_close_price = atof(column.c_str());
+	record->adj_close_price_k = atof(column.c_str()) * 1000;
 	return true;
 }
 
@@ -94,22 +94,22 @@ void DayRecord::compact(CompactDayRecord *compact_record) const {
 	compact_record->year = date.year;
 	compact_record->month = date.month;
 	compact_record->day = date.day;
-	compact_record->open_price_k = open_price * 1000;
-	compact_record->high_price_k = high_price * 1000;
-	compact_record->low_price_k = low_price * 1000;
-	compact_record->close_price_k = close_price * 1000;
+	compact_record->open_price_k = open_price_k;
+	compact_record->high_price_k = high_price_k;
+	compact_record->low_price_k = low_price_k;
+	compact_record->close_price_k = close_price_k;
 	compact_record->volume = volume;
-	compact_record->adj_close_price_k = adj_close_price * 1000;
+	compact_record->adj_close_price_k = adj_close_price_k;
 }
 
 std::ostream &operator<<(std::ostream &os, const DayRecord &record) {
 	os << record.date << ",";
-	os << record.open_price << ",";
-	os << record.high_price << ",";
-	os << record.low_price << ",";
-	os << record.close_price << ",";
+	os << record.open_price_k * 0.001 << ",";
+	os << record.high_price_k * 0.001 << ",";
+	os << record.low_price_k * 0.001 << ",";
+	os << record.close_price_k * 0.001 << ",";
 	os << record.volume << ",";
-	os << record.adj_close_price;
+	os << record.adj_close_price_k * 0.001;
 	return os;
 }
 
@@ -117,12 +117,12 @@ void CompactDayRecord::decompress(DayRecord *record) const {
 	record->date.year = year;
 	record->date.month = month;
 	record->date.day = day;
-	record->open_price = open_price_k / 1000;
-	record->high_price = high_price_k / 1000;
-	record->low_price = low_price_k / 1000;
-	record->close_price = close_price_k / 1000;
+	record->open_price_k = open_price_k;
+	record->high_price_k = high_price_k;
+	record->low_price_k = low_price_k;
+	record->close_price_k = close_price_k;
 	record->volume = volume;
-	record->adj_close_price = adj_close_price_k / 1000;
+	record->adj_close_price_k = adj_close_price_k;
 }
 
 }  // namespace shdb

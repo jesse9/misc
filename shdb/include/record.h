@@ -34,12 +34,12 @@ struct CompactDayRecord;
 
 struct DayRecord {
 	Date date;
-	double open_price = 0;
-	double high_price = 0;
-	double low_price = 0;
-	double close_price = 0;
+	int open_price_k = 0;
+	int high_price_k = 0;
+	int low_price_k = 0;
+	int close_price_k = 0;
 	long long int volume = 0;
-	double adj_close_price = 0;
+	int adj_close_price_k = 0;
 
 	void compact(CompactDayRecord *compact_record) const;
 
