@@ -30,6 +30,8 @@ struct Date {
 
 std::ostream &operator<<(std::ostream &os, const Date &date);
 
+struct CompactDayRecord;
+
 struct DayRecord {
 	Date date;
 	double open_price = 0;
@@ -39,11 +41,27 @@ struct DayRecord {
 	long long int volume = 0;
 	double adj_close_price = 0;
 
+	void compact(CompactDayRecord *compact_record) const;
+
 	// Returns true if parsing is successful.
 	static bool parse(const std::string &line, DayRecord *record);
 };
 
 std::ostream &operator<<(std::ostream &os, const DayRecord &record);
+
+struct CompactDayRecord {
+	unsigned year : 11;
+	unsigned month : 4;
+	unsigned day : 5;
+	unsigned open_price_k : 21;
+	unsigned high_price_k : 21;
+	unsigned low_price_k : 21;
+	unsigned close_price_k : 21;
+	unsigned long long volume : 43;
+	unsigned adj_close_price_k : 21;
+
+	void decompress(DayRecord *record) const;
+};
 
 }  // namespace shdb
 
