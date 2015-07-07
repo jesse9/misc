@@ -50,18 +50,26 @@ struct DayRecord {
 std::ostream &operator<<(std::ostream &os, const DayRecord &record);
 
 struct CompactDayRecord {
-	unsigned year : 11;
-	unsigned month : 4;
-	unsigned day : 5;
-	unsigned open_price_k : 21;
-	unsigned high_price_k : 21;
-	unsigned low_price_k : 21;
-	unsigned close_price_k : 21;
+	unsigned long long year : 11;
+	unsigned long long month : 4;
+	unsigned long long day : 5;
+	unsigned long long open_price_k : 21;
+	unsigned long long high_price_k : 21;
+
+	unsigned long long reserved1 : 2;
+
+	unsigned long long low_price_k : 21;
+	unsigned long long close_price_k : 21;
+	unsigned long long adj_close_price_k : 21;
+
+	unsigned long long reserved2 : 1;
+
 	unsigned long long volume : 43;
-	unsigned adj_close_price_k : 21;
+
+	unsigned long long reserved3 : 21;
 
 	void decompress(DayRecord *record) const;
-};
+} __attribute__ ((aligned (8)));
 
 }  // namespace shdb
 

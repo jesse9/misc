@@ -110,6 +110,10 @@ int main(int argc, char *argv[]) {
 		}
 		++merge_total;
 	}
+
+	f1.csv.close();
+	f2.csv.close();
+
 	LOG << num_f1 << " from " << f1.filename << ", " << num_f2 << " from "
 			<< f2.filename << ", " << num_overlap << " overlap, total "
 			<< merge_total << " after merge." << endl;
